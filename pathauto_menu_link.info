@@ -1,0 +1,6 @@
+name = Pathauto Menu Item
+description = Update paths when a menu item is moved
+core = 7.x
+version = 7.x-1.x-dev
+dependencies[] = menu
+dependencies[] = pathauto
