@@ -48,7 +48,7 @@ function _pathauto_menu_link_update($link) {
 function _pathauto_menu_link_update_children($link) {
   if ($link['has_children']) {
     // Find the child menu items.
-    $children = menu_build_tree($link['menu_name'], array($link['mlid']));
+    $children = menu_build_tree($link['menu_name'], array('expanded' => array($link['mlid'])));
     foreach ($children as $child) {
       $link = $child['link'];
 
