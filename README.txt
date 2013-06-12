@@ -10,6 +10,8 @@ This module fixes that by forcing an update of the Pathauto-generated path
 when a menu link item has been updated, based of the link's new position within
 the menu tree.
 
+Should this be in the Pathauto module itself? Maybe.
+
 MAINTAINERS
 -----------
 
