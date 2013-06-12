@@ -9,6 +9,17 @@
  * Implements hook_menu_link_update().
  */
 function pathauto_menu_link_menu_link_update($link) {
+  // Attempt to update the path for the menu link.
+  _pathauto_menu_link_update($link);
+}
+
+/**
+ * Update the path for a node menu link.
+ *
+ * @param object $link
+ *   The link.
+ */
+function _pathauto_menu_link_update($link) {
   $href = $link['href'];
   $exploded = explode('/', $href);
   if ($exploded) {
@@ -21,6 +32,29 @@ function pathauto_menu_link_menu_link_update($link) {
 
       // Update the alias.
       pathauto_node_update_alias($node, 'update');
+
+      // Update any child menu links.
+      _pathauto_menu_link_update_children($link);
+    }
+  }
+}
+
+/**
+ * Search for and update any child menu links.
+ *
+ * @param object $link
+ *   The link.
+ */
+function _pathauto_menu_link_update_children($link) {
+  if ($link['has_children']) {
+    // Find the child menu items.
+    $children = menu_build_tree($link['menu_name'], array($link['mlid']));
+    foreach ($children as $child) {
+      $link = $child['link'];
+
+      // Update this menu item, and loop through it's children if there are
+      // any.
+      _pathauto_menu_link_update($link);
     }
   }
 }
