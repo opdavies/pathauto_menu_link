@@ -20,7 +20,11 @@ function pathauto_menu_link_menu_link_update($link) {
  *   The link.
  */
 function _pathauto_menu_link_update($link) {
-  $href = $link['href'];
+  $href = isset($link['href']) ? $link['href'] : NULL;
+  if (!$href) {
+    return;
+  }
+
   $exploded = explode('/', $href);
   if ($exploded) {
     if ($exploded[0] == 'node') { // Only affect nodes.
