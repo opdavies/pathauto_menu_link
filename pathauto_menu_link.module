@@ -20,12 +20,8 @@ function pathauto_menu_link_menu_link_update($link) {
  *   The link.
  */
 function _pathauto_menu_link_update($link) {
-  $href = isset($link['href']) ? $link['href'] : NULL;
-  if (!$href) {
-    return;
-  }
+  $exploded = explode('/', $link['link_path']);
 
-  $exploded = explode('/', $href);
   if ($exploded) {
     if ($exploded[0] == 'node') { // Only affect nodes.
       // Get the node ID and load the node object.
