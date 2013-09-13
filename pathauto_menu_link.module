@@ -46,7 +46,7 @@ function _pathauto_menu_link_update($link) {
  *   The link.
  */
 function _pathauto_menu_link_update_children($link) {
-  if ($link['has_children']) {
+  if (_pathauto_menu_link_has_children($link)) {
     // Find the child menu items.
     $children = menu_build_tree($link['menu_name'], array('expanded' => array($link['mlid'])));
     foreach ($children as $child) {
@@ -57,4 +57,26 @@ function _pathauto_menu_link_update_children($link) {
       _pathauto_menu_link_update($link);
     }
   }
+}
+
+/**
+ * See if a link has any child links
+ *
+ * @param object $link
+ *   The parent link
+ */
+function _pathauto_menu_link_has_children($link) {
+  // If has_children is set we can assume TRUE.
+  if ($link['has_children']) {
+    return TRUE;
+  }
+
+  // Check if at least one child exists in the table.
+  $query = db_select('menu_links');
+  $query->addField('menu_links', 'mlid');
+  $query->condition('menu_name', $link['menu_name']);
+  $query->condition('plid', $link['mlid']);
+  $query->range(0, 1);
+
+  return ((bool) $query->execute()->fetchField()) ? 1 : 0;
 }
