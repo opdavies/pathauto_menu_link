@@ -26,10 +26,18 @@ function _pathauto_menu_link_update($link) {
     if ($exploded[0] == 'node') { // Only affect nodes.
       // Get the node ID and load the node object.
       $nid = $exploded[1];
+
+      if (!is_numeric($nid)) {
+        return;
+      }
+
       $node = node_load($nid, NULL, TRUE);
 
-      // @todo: Check that the path has changed before updating the node.
+      if (is_bool($node)) {
+        return;
+      }
 
+      // @todo: Check that the path has changed before updating the node.
       // Update the alias.
       pathauto_node_update_alias($node, 'update');
 
