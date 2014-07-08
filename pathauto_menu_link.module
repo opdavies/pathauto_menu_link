@@ -23,7 +23,8 @@ function _pathauto_menu_link_update($link) {
   $exploded = explode('/', $link['link_path']);
 
   if ($exploded) {
-    if ($exploded[0] == 'node') { // Only affect nodes.
+    // Only affect nodes.
+    if ($exploded[0] == 'node' && isset($exploded[1]) && is_numeric($exploded[1])) {
       // Get the node ID and load the node object.
       $nid = $exploded[1];
 
